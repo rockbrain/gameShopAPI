@@ -11,14 +11,14 @@ namespace gameRock.Controllers
 {
     [Route("Games")]
     [ApiController]
-    
+
     public class GamesController : ControllerBase
     {
-        
-        private readonly InMemStockData inMemStockData;
-        public GamesController()
+
+        private readonly IInMemStockData inMemStockData;
+        public GamesController(IInMemStockData inMemStockData)
         {
-            inMemStockData = new InMemStockData();
+           this.inMemStockData = inMemStockData;
         }
         [HttpGet]
         public IEnumerable<Games> GetGames()
@@ -26,5 +26,23 @@ namespace gameRock.Controllers
             var Games = inMemStockData.GetGames();
             return Games;
         }
+        //Get Games By Id
+        
+        [HttpGet("{id}")]
+        public ActionResult<Games> GetGame(Guid id)
+        {
+            var game = inMemStockData.GetGame(id);
+
+            if (game is null)
+            {
+                return NotFound();
+
+            }
+            return Ok(game);
+        }
+
+
+        
+
     }
 }

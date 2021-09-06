@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace gameRock.Repositories
 {
-    public class InMemStockData
+    public class InMemStockData : IInMemStockData
     {
         private readonly List<Games> games = new()
         {
@@ -15,13 +15,14 @@ namespace gameRock.Repositories
             new Games { Id = Guid.NewGuid(), Title = "Battle Field", Price = 34, ReleaseDate = DateTimeOffset.UtcNow },
             new Games { Id = Guid.NewGuid(), Title = "Warface", Price = 5, ReleaseDate = DateTimeOffset.UtcNow }
         };
-        public IEnumerable<Games>GetGames()
+        public IEnumerable<Games> GetGames()
         {
             return games;
         }
-        public Games GetGames(Guid id)
+        public Games GetGame(Guid id)
         {
             return games.Where(game => game.Id == id).SingleOrDefault();
         }
+      
     }
 }
